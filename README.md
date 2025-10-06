@@ -18,3 +18,20 @@
 npm install
 npm run dev
 ```
+
+## 📂 Structure du projet
+
+```bash
+briefly/
+├── app/
+│   └── (protected)/
+│       └── dashboard/
+├── components/
+├── lib/
+├── prisma/
+├── public/
+├── [middleware.ts]
+├── [\_ping.ts]
+├── .env
+
+```
