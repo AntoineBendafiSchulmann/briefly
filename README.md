@@ -12,8 +12,6 @@
 
 ---
 
-![alt text](image.png)
-
 ## 🚀 Lancer le projet
 
 ```bash
