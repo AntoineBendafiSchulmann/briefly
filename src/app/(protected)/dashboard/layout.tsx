@@ -25,7 +25,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     <SidebarProvider>
       <div
         className={`flex flex-col min-h-screen ${
-          theme === 'dark' ? 'text-white' : 'text-black'
+          theme === 'dark' ? 'bg-red-600 text-white' : 'text-black' 
         }`}
       >
         <div className="flex h-[calc(100vh-3.5rem)]">
@@ -169,15 +169,15 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           </Sidebar>
 
           {/* page content */}
-            <main
-            className={`flex-1 overflow-auto transition-all ${
+          <main
+            className={`flex-1 overflow-hidden transition-all ${
                 collapsed ? 'ml-14' : 'ml-56'
             }`}
             >
-            <div className="w-full min-h-[calc(100vh-3.5rem)] p-8">
-            {children}
+            <div className="w-full min-h-[calc(100vh-3.5rem)] p-8 bg-red-600">
+                {children}
             </div>
-            </main>
+          </main>
 
         </div>
       </div>

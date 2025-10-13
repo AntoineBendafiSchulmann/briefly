@@ -29,18 +29,18 @@ export default function HomePage() {
   };
 
   return (
-    <div className="p-20">
-      <h1 className="text-4xl font-bold mb-6 text-center">Bienvenue sur Briefly 👋</h1>
-      <p className="text-lg text-muted-foreground mb-8 text-center">
+    <div className="p-6 md:p-20">
+      <h1 className="mt-8 md:mt-16 text-3xl md:text-4xl font-bold mb-6 text-center">Bienvenue sur Briefly 👋</h1>
+      <p className="text-base md:text-lg text-muted-foreground mb-8 text-center">
         Simplifiez vos reformulations avec notre outil intelligent. Découvrez comment nous pouvons vous aider à gagner du temps et améliorer vos communications.
       </p>
 
-      <div className="max-w-3xl mx-auto mb-12">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Découvrez nos fonctionnalités</h2>
+      <div className="max-w-full md:max-w-3xl mx-auto mb-12">
+        <h2 className="text-xl md:text-2xl font-semibold mb-4 text-center">Découvrez nos fonctionnalités</h2>
         <div className="relative">
           <Carousel ref={carouselRef} className="flex gap-4 overflow-hidden">
             {items.map((item, index) => (
-              <CarouselItem key={index} className="relative w-[300px] h-[400px] flex-shrink-0">
+              <CarouselItem key={index} className="relative w-full md:w-[300px] h-[300px] md:h-[400px] flex-shrink-0">
                 <div className="relative w-full h-full overflow-hidden rounded-lg">
                   <Image
                     src={item.src}
@@ -49,7 +49,7 @@ export default function HomePage() {
                     className="object-cover transition-opacity duration-300 hover:opacity-90"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-70 transition-opacity duration-300">
-                    <p className="text-white text-center text-lg font-medium px-4">{item.description}</p>
+                    <p className="text-white text-center text-sm md:text-lg font-medium px-4">{item.description}</p>
                   </div>
                 </div>
               </CarouselItem>
@@ -59,17 +59,17 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto mb-12">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Nos tarifs</h2>
+      <div className="max-w-full md:max-w-4xl mx-auto mb-12">
+        <h2 className="text-xl md:text-2xl font-semibold mb-4 text-center">Nos tarifs</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             { title: 'Gratuit', description: 'Accédez aux fonctionnalités de base.', button: 'Commencer' },
             { title: 'Pro', description: 'Pour les utilisateurs avancés.', button: 'Choisir Pro' },
             { title: 'Entreprise', description: 'Solutions personnalisées pour les entreprises.', button: 'Contactez-nous' },
           ].map((plan, index) => (
-            <Card key={index} className="flex flex-col items-center text-center p-6 rounded-lg shadow-lg bg-background">
+            <Card key={index} className="flex flex-col items-center text-center p-6 rounded-lg shadow-lg bg-background w-full">
               <CardHeader className="w-full">
-                <CardTitle className="text-xl font-bold text-center">{plan.title}</CardTitle>
+                <CardTitle className="text-lg md:text-xl font-bold text-center">{plan.title}</CardTitle>
               </CardHeader>
               <CardContent className="flex-grow">
                 <p className="text-sm text-muted-foreground">{plan.description}</p>
@@ -84,8 +84,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4">Questions fréquentes</h2>
+      <div className="max-w-full md:max-w-3xl mx-auto">
+        <h2 className="text-xl md:text-2xl font-semibold mb-4">Questions fréquentes</h2>
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger>Comment fonctionne Briefly ?</AccordionTrigger>
