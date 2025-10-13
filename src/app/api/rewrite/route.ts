@@ -1,29 +1,20 @@
-interface RewriteRequest {
-  text: string;
-}
+import { NextRequest, NextResponse } from 'next/server';
+import { rewriteText } from '@/lib/openai';
 
-interface RewriteResponse {
-  result: string;
-}
+export async function POST(req: NextRequest) {
+  const { text, context } = await req.json();
 
-export async function POST(req: Request): Promise<Response> {
-  if (req.headers.get('content-type') !== 'application/json') {
-    return Response.json({ result: 'Requête invalide.' }, { status: 400 });
+  if (!text || !context) {
+    return NextResponse.json({ error: 'Texte ou contexte manquant.' }, { status: 400 });
   }
 
-  let body: RewriteRequest;
+  const prompt = `Reformule ce texte dans le contexte suivant : ${context}\n\n${text}`;
+
   try {
-    body = await req.json();
-  } catch {
-    return Response.json({ result: 'Erreur de parsing JSON.' }, { status: 400 });
+    const reformulatedText = await rewriteText(prompt);
+    return NextResponse.json({ reformulatedText });
+  } catch (error) {
+    const err = error as Error;
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  if (!body?.text) {
-    return Response.json({ result: 'Aucun texte fourni.' }, { status: 400 });
-  }
-
-  const result = `Voici une version reformulée de votre texte :\n\n${body.text.toUpperCase()}`;
-  const response: RewriteResponse = { result };
-
-  return Response.json(response);
 }

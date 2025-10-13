@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -113,10 +116,15 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+    * {
+        @apply border-border outline-ring/50;
+    }
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
 }

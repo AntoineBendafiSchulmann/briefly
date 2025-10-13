@@ -1,34 +1,93 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { signOut, useSession } from 'next-auth/react'
-import { Button } from '@/components/ui/button'
+import Link from 'next/link';
+import Image from 'next/image';
+import { signOut, useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
+import { useTheme } from 'next-themes';
+import { Sun, Moon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
+  const pathname = usePathname();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const links = [
+    { href: '/', label: 'Accueil' },
+    { href: '/dashboard', label: 'Dashboard' },
+  ];
+
+  const isDashboardActive = pathname?.startsWith('/dashboard');
 
   return (
-    <header className="border-b px-6 py-4 flex items-center justify-between bg-background">
-      <Link href="/" className="text-lg font-semibold">Briefly</Link>
-      <nav className="flex items-center gap-4">
-        {session ? (
-          <>
-            <span className="text-sm text-muted-foreground">
-              Connecté en tant que {session.user?.name}
-            </span>
-            <Button
-              variant="outline"
-              onClick={() => signOut({ callbackUrl: '/login' })}
+    <header className="fixed top-0 left-0 right-0 z-20 border-b px-6 py-4 bg-background">
+      <div className="flex items-center justify-between">
+        <nav className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
+            <Image
+              src="/logo/logo.png"
+              alt="Briefly Logo"
+              width={32}
+              height={22}
+              className="object-contain"
+            />
+            Briefly
+          </Link>
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-sm font-medium ${
+                link.href === '/dashboard' && isDashboardActive
+                  ? 'underline text-primary'
+                  : pathname === link.href
+                  ? 'underline text-primary'
+                  : 'hover:text-muted-foreground'
+              }`}
             >
-              Se déconnecter
-            </Button>
-          </>
-        ) : (
-          <Button asChild variant="default">
-            <Link href="/login">Connexion</Link>
-          </Button>
-        )}
-      </nav>
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-4">
+          {mounted && (
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition"
+            >
+              {theme === 'dark' ? (
+                <Sun className="h-5 w-5 text-black" aria-hidden="true" />
+              ) : (
+                <Moon className="h-5 w-5 text-black" aria-hidden="true" />
+              )}
+            </button>
+          )}
+          {session ? (
+            <>
+              <span className="text-sm text-muted-foreground">
+                Connecté en tant que {session.user?.name}
+              </span>
+              <button
+                onClick={() => signOut({ callbackUrl: '/login' })}
+                className="text-sm font-medium hover:underline"
+              >
+                Se déconnecter
+              </button>
+            </>
+          ) : (
+            <Link href="/login" className="text-sm font-medium hover:underline">
+              Connexion
+            </Link>
+          )}
+        </div>
+      </div>
     </header>
-  )
+  );
 }
