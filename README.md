@@ -1,6 +1,6 @@
 # Briefly ✍️ – Reformulateur IA de contenus
 
-**Briefly** est une application de reformulation de contenus professionnels (emails, textes, messages Slack...) construite avec :
+**Briefly** est une application de reformulation de contenus professionnels (conversations, documents, emails, textes, messages Slack...) construite avec :
 
 - [Next.js App Router](https://nextjs.org/docs/app)
 - [TypeScript](https://www.typescriptlang.org/)
