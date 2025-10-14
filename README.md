@@ -5,7 +5,7 @@
 - [Next.js App Router](https://nextjs.org/docs/app)
 - [TypeScript](https://www.typescriptlang.org/)
 - [NextAuth.js](https://next-auth.js.org/) pour l'authentification GitHub/Google
-- [Prisma](https://www.prisma.io/) + SQLite (local dev)
+- [Prisma](https://www.prisma.io/) + PostgreSQL (base de données distante)
 - [shadcn/ui](https://ui.shadcn.com/) pour les composants UI
 - Middleware `next-auth/jwt` pour la protection des routes (`/dashboard`)
 - Et bientôt : intégration OpenAI et historique en base
