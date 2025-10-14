@@ -25,4 +25,14 @@ export const authOptions: AuthOptions = {
     signIn: '/login',
   },
   secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+    async session({ session, token }) {
+      console.log("session callback", session, token);
+      return session;
+    },
+    async jwt({ token, account, user }) {
+      console.log("jwt callback", { token, account, user });
+      return token;
+    },
+  },
 };
