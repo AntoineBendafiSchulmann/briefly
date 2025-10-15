@@ -4,8 +4,6 @@ import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 import { prisma } from '@/lib/db';
 
-//console.log('NEXTAUTH_SECRET:', process.env.NEXTAUTH_SECRET);
-
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -21,18 +19,25 @@ export const authOptions: AuthOptions = {
   session: {
     strategy: 'jwt',
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token.id) {
+        session.user = {
+          ...session.user,
+          id: token.id,
+        };
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: '/login',
   },
   secret: process.env.NEXTAUTH_SECRET,
-    callbacks: {
-    async session({ session, token }) {
-      console.log("session callback", session, token);
-      return session;
-    },
-    async jwt({ token, account, user }) {
-      console.log("jwt callback", { token, account, user });
-      return token;
-    },
-  },
 };

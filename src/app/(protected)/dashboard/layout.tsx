@@ -25,7 +25,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     <SidebarProvider>
       <div
         className={`flex flex-col min-h-screen ${
-          theme === 'dark' ? 'bg-red-600 text-white' : 'text-black' 
+          theme === 'dark' ? 'text-white' : 'text-black' 
         }`}
       >
         <div className="flex h-[calc(100vh-3.5rem)]">
@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             className={`${
               collapsed ? 'w-14' : 'w-56'
             } fixed left-0 top-[4.28rem] h-[calc(100vh-4.0rem)] ${
-              theme === 'dark' ? 'bg-background' : 'bg-gray-100 border-r border-gray-300'
+              theme === 'dark' ? 'bg-background border-r' : 'bg-gray-100 border-r'
             }`}
             collapsible="none"
           >
@@ -174,7 +174,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 collapsed ? 'ml-14' : 'ml-56'
             }`}
             >
-            <div className="w-full min-h-[calc(100vh-3.5rem)] p-8 bg-red-600">
+            <div className="w-full min-h-[calc(100vh-3.5rem)] p-8">
                 {children}
             </div>
           </main>

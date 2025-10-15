@@ -14,16 +14,14 @@ function getOpenAI(): OpenAI {
   return openai;
 }
 
-export async function rewriteText(prompt: string): Promise<string> {
+export async function rewriteText(prompt: string, model: string): Promise<string> {
   const openai = getOpenAI();
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
+    model,
     messages: [{ role: "user", content: prompt }],
   });
 
-  if (
-    !response.choices?.[0]?.message?.content
-  ) {
+  if (!response.choices?.[0]?.message?.content) {
     throw new Error("la réponse de l'API OpenAI est invalide ou vide.");
   }
 

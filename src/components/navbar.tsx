@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, X, Menu } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function Navbar() {
@@ -101,18 +101,20 @@ export default function Navbar() {
           className="md:hidden p-2 transition ml-4"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          <span className="sr-only">Ouvrir le menu</span>
-          <div className="flex flex-col gap-1">
-            <span className="block w-6 h-0.5 bg-black dark:bg-white"></span>
-            <span className="block w-6 h-0.5 bg-black dark:bg-white"></span>
-            <span className="block w-6 h-0.5 bg-black dark:bg-white"></span>
-          </div>
+          <span className="sr-only">
+            {isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+          </span>
+          {isMenuOpen ? (
+            <X className="h-6 w-6 text-black dark:text-white" aria-hidden="true" />
+          ) : (
+            <Menu className="h-6 w-6 text-black dark:text-white" aria-hidden="true" />
+          )}
         </button>
       </div>
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <nav className="md:hidden mt-4 bg-gray-100 dark:bg-gray-800 rounded shadow-lg p-4">
+        <nav className="md:hidden absolute left-0 right-0 bg-gray-100 dark:bg-gray-800 rounded shadow-lg p-4">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -124,7 +126,7 @@ export default function Navbar() {
                   ? 'underline text-primary'
                   : 'hover:text-muted-foreground'
               }`}
-              onClick={() => setIsMenuOpen(false)} // Close menu on link click
+              onClick={() => setIsMenuOpen(false)}
             >
               {link.label}
             </Link>

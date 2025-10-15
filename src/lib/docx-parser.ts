@@ -11,9 +11,14 @@ export async function parseDocx(file: File): Promise<string> {
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
   const file = formData.get('file') as File;
+  const model = formData.get('model') as string;
 
   if (!file) {
     return NextResponse.json({ error: 'Aucun fichier fourni.' }, { status: 400 });
+  }
+
+  if (!model) {
+    return NextResponse.json({ error: 'Aucun modèle sélectionné.' }, { status: 400 });
   }
 
   try {
@@ -28,7 +33,7 @@ export async function POST(req: NextRequest) {
     const prompt = `Analyse et traite le contenu suivant extrait d'un document :\n\n${text}`;
     console.log('Prompt envoyé à OpenAI :', prompt);
 
-    const processedText = await rewriteText(prompt);
+    const processedText = await rewriteText(prompt, model);
     console.log('Réponse de OpenAI :', processedText);
 
     return NextResponse.json({ processedText });

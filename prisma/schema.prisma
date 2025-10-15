@@ -16,6 +16,7 @@ model User {
 
   accounts      Account[]
   sessions      Session[]
+  histories     History[]
 }
 
 model Account {
@@ -52,4 +53,14 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model History {
+  id        String   @id @default(cuid())
+  text      String
+  context   String
+  cost      Float
+  date      DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
