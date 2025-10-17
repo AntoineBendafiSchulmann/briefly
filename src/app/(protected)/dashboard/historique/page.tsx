@@ -110,7 +110,7 @@ export default function HistoriquePage() {
       <h1 className="text-2xl font-bold mb-6">Historique</h1>
 
       {loading ? (
-        <div className="flex justify-center items-center h-[70vh]">
+        <div className="flex justify-center items-center  h-[70vh] w-[70vw]">
           <SpinnerEmpty />
         </div>
       ) : history.length === 0 ? (
