@@ -28,10 +28,12 @@ const columns: ColumnDef<HistoryItem>[] = [
     header: 'Texte',
     size: 300,
     cell: ({ row }) => (
-      <Tooltip content={row.original.text}>
-        <span className="truncate block max-w-[280px]">{row.original.text}</span>
-      </Tooltip>
-    ),
+      <Tooltip>
+            <span title={row.original.text} className="truncate block max-w-[280px]">
+            {row.original.text}
+            </span>
+        </Tooltip>
+        ),
   },
   { accessorKey: 'context', header: 'Contexte', size: 150 },
   { accessorKey: 'model', header: 'Modèle', size: 150 },

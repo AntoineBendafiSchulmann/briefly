@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
       data: {
         text: reformulatedText,
         context,
+        model,
         cost,
         date: new Date(),
         userId,
