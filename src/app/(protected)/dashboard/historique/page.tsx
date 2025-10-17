@@ -114,7 +114,7 @@ export default function HistoriquePage() {
           <SpinnerEmpty />
         </div>
       ) : history.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-[70vh] text-center">
+        <div className="flex flex-col items-center justify-center h-[70vh] w-full text-center">
           <LargeHeading>404</LargeHeading>
           <Paragraph>Aucune donnée</Paragraph>
         </div>
