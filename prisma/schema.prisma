@@ -59,6 +59,7 @@ model History {
   id        String   @id @default(cuid())
   text      String
   context   String
+  model     String
   cost      Float
   date      DateTime @default(now())
   userId    String

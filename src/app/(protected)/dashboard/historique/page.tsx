@@ -10,20 +10,32 @@ import {
 } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import { Tooltip } from '@/components/ui/tooltip';
 
 interface HistoryItem {
   id: string;
   text: string;
   context: string;
+  model: string;
   cost: number;
   date: string;
 }
 
 const columns: ColumnDef<HistoryItem>[] = [
-  { accessorKey: 'text', header: 'Texte' },
-  { accessorKey: 'context', header: 'Contexte' },
-  { accessorKey: 'cost', header: 'Coût (€)', cell: ({ row }) => row.original.cost.toFixed(2) },
-  { accessorKey: 'date', header: 'Date', cell: ({ row }) => new Date(row.original.date).toLocaleDateString() },
+  {
+    accessorKey: 'text',
+    header: 'Texte',
+    size: 300,
+    cell: ({ row }) => (
+      <Tooltip content={row.original.text}>
+        <span className="truncate block max-w-[280px]">{row.original.text}</span>
+      </Tooltip>
+    ),
+  },
+  { accessorKey: 'context', header: 'Contexte', size: 150 },
+  { accessorKey: 'model', header: 'Modèle', size: 150 },
+  { accessorKey: 'cost', header: 'Coût (€)', size: 100, cell: ({ row }) => row.original.cost.toFixed(2) },
+  { accessorKey: 'date', header: 'Date', size: 150, cell: ({ row }) => new Date(row.original.date).toLocaleDateString() },
 ];
 
 export default function HistoriquePage() {
@@ -65,32 +77,34 @@ export default function HistoriquePage() {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Historique des reformulations</h1>
+      <h1 className="text-2xl font-bold mb-6">Historique</h1>
 
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="overflow-x-auto border rounded-lg shadow-md">
+        <Table className="w-full">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id} className="bg-gray-100 dark:bg-gray-800">
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id} className="truncate max-w-[280px]">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
 
       {table.getPaginationRowModel().rows.length > itemsPerPage && (
         <div className="flex justify-end mt-4">

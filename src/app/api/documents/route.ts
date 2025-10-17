@@ -2,12 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import { rewriteText } from '@/lib/openai';
 import mammoth from 'mammoth';
 import { prisma } from '@/lib/db';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.id) {
+    console.error('Utilisateur non authentifié.');
+    return NextResponse.json({ error: 'Utilisateur non authentifié.' }, { status: 401 });
+  }
+
+  const userId = session.user.id;
+
   const formData = await req.formData();
   const file = formData.get('file') as File;
   const model = formData.get('model') as string;
-  const userId = formData.get('userId') as string;
+  const context = formData.get('prompt') as string;
 
   if (!file) {
     console.error('Aucun fichier fourni.');
@@ -19,9 +30,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Aucun modèle sélectionné.' }, { status: 400 });
   }
 
-  if (!userId) {
-    console.error('Aucun utilisateur fourni.');
-    return NextResponse.json({ error: 'Aucun utilisateur fourni.' }, { status: 400 });
+  if (!context) {
+    console.error('Aucun contexte fourni.');
+    return NextResponse.json({ error: 'Aucun contexte sélectionné.' }, { status: 400 });
   }
 
   try {
@@ -51,12 +62,13 @@ export async function POST(req: NextRequest) {
     const processedText = await rewriteText(prompt, model);
     console.log('Réponse de OpenAI :', processedText);
 
-    const cost = text.length * 0.0001;
+    const cost = processedText.length * 0.0001;
 
     await prisma.history.create({
       data: {
         text: processedText,
-        context: model,
+        context,
+        model,
         cost,
         date: new Date(),
         userId,

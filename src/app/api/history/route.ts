@@ -17,6 +17,14 @@ export async function GET() {
     const history = await prisma.history.findMany({
       where: { userId },
       orderBy: { date: 'desc' },
+      select: {
+        id: true,
+        text: true,
+        context: true,
+        model: true,
+        cost: true,
+        date: true,
+      },
     });
 
     return NextResponse.json(history, { status: 200 });
