@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
         context,
         cost,
         date: new Date(),
-        userId, // Ajout du userId ici
+        userId,
       },
     });
 
