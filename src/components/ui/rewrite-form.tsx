@@ -31,6 +31,7 @@ export default function RewriteForm({ context }: RewriteFormProps) {
         setResult(data.reformulatedText);
       }
     } catch (err) {
+      console.error('Erreur lors de la reformulation :', err);
       setError('Une erreur est survenue lors de la reformulation.');
     }
   };
