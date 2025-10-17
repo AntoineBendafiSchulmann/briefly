@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     await prisma.history.create({
       data: {
         text: reformulatedText,
+        type: 'reformulation',
         context,
         model,
         cost,

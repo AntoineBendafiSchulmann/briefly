@@ -2,13 +2,19 @@
 
 import { Button } from '@/components/ui/button';
 import { useTheme } from 'next-themes';
+import { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function ParametresPage() {
   const { theme, setTheme } = useTheme();
+  const [selectedTheme, setSelectedTheme] = useState(theme || 'light');
 
   const handleThemeChange = (value: string) => {
-    setTheme(value);
+    setSelectedTheme(value);
+  };
+
+  const handleSave = () => {
+    setTheme(selectedTheme);
   };
 
   return (
@@ -22,7 +28,7 @@ export default function ParametresPage() {
           <label htmlFor="theme" className="block text-sm font-medium">
             Thème
           </label>
-          <Select onValueChange={handleThemeChange} value={theme}>
+          <Select onValueChange={handleThemeChange} value={selectedTheme}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Sélectionnez un thème" />
             </SelectTrigger>
@@ -32,7 +38,13 @@ export default function ParametresPage() {
             </SelectContent>
           </Select>
         </div>
-        <Button type="button" variant="default" size="lg" className="w-full">
+        <Button
+          type="button"
+          variant="default"
+          size="lg"
+          className="w-full"
+          onClick={handleSave}
+        >
           Sauvegarder
         </Button>
       </form>

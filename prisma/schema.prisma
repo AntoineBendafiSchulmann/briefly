@@ -57,6 +57,7 @@ model VerificationToken {
 
 model History {
   id        String   @id @default(cuid())
+  type      String   @default("unknown")
   text      String
   context   String
   model     String

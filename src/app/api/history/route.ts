@@ -19,6 +19,7 @@ export async function GET() {
       orderBy: { date: 'desc' },
       select: {
         id: true,
+        type: true,
         text: true,
         context: true,
         model: true,

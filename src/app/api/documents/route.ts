@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
     await prisma.history.create({
       data: {
         text: processedText,
+        type: 'document',
         context,
         model,
         cost,

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
 
 export default function ReformulationPage() {
   const [context, setContext] = useState('professionnel');
@@ -18,7 +19,8 @@ export default function ReformulationPage() {
     { value: 'neutre', label: 'Ton neutre' },
     { value: 'convivial', label: 'Ton convivial' },
     { value: 'persuasif', label: 'Ton persuasif' },
-    { value: 'document', label: 'Traitement de document' },
+    { value: 'creatif', label: 'Ton créatif' },
+    { value: 'technique', label: 'Ton technique' },
   ];
 
   const models = [
@@ -84,7 +86,14 @@ export default function ReformulationPage() {
           <SelectContent>
             {models.map((m) => (
               <SelectItem key={m.value} value={m.value}>
-                {m.label}
+                <div className="flex items-center justify-between">
+                  {m.label}
+                  {m.value === 'gpt-3.5-turbo' && (
+                    <Badge variant="secondary" className="ml-2">
+                      Par défaut
+                    </Badge>
+                  )}
+                </div>
               </SelectItem>
             ))}
           </SelectContent>

@@ -12,9 +12,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button';
 import { Tooltip } from '@/components/ui/tooltip';
 import { SpinnerEmpty } from '@/components/ui/spinner';
+import { FileText, Edit } from 'lucide-react';
+import { LargeHeading, Paragraph } from '@/components/ui/typography';
 
 interface HistoryItem {
   id: string;
+  type: 'document' | 'reformulation';
   text: string;
   context: string;
   model: string;
@@ -24,16 +27,36 @@ interface HistoryItem {
 
 const columns: ColumnDef<HistoryItem>[] = [
   {
+    accessorKey: 'type',
+    header: 'Type',
+    size: 100,
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        {row.original.type === 'document' ? (
+          <FileText className="h-4 w-4 text-gray-500" />
+        ) : (
+          <Edit className="h-4 w-4 text-gray-500" />
+        )}
+        <span>{row.original.type === 'document' ? 'Document' : 'Reformulation'}</span>
+      </div>
+    ),
+  },
+  {
     accessorKey: 'text',
     header: 'Texte',
     size: 300,
     cell: ({ row }) => (
       <Tooltip>
-            <span title={row.original.text} className="truncate block max-w-[280px]">
-            {row.original.text}
-            </span>
-        </Tooltip>
-        ),
+        <span
+          title={row.original.text}
+          className="truncate block max-w-[280px]"
+        >
+          {row.original.text.length > 50
+            ? `${row.original.text.slice(0, 50)}...`
+            : row.original.text}
+        </span>
+      </Tooltip>
+    ),
   },
   { accessorKey: 'context', header: 'Contexte', size: 150 },
   { accessorKey: 'model', header: 'Modèle', size: 150 },
@@ -89,6 +112,11 @@ export default function HistoriquePage() {
       {loading ? (
         <div className="flex justify-center items-center h-[70vh]">
           <SpinnerEmpty />
+        </div>
+      ) : history.length === 0 ? (
+        <div className="flex flex-col items-center justify-center h-[70vh]">
+          <LargeHeading>404</LargeHeading>
+          <Paragraph>Aucune donnée</Paragraph>
         </div>
       ) : (
         <div className="overflow-x-auto border rounded-lg shadow-md">
