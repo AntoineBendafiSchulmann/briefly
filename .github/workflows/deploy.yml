@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: Production
 
     steps:
       - name: Checkout code
@@ -24,12 +23,21 @@ jobs:
 
       - name: Push Prisma schema to DB
         run: npx prisma db push
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        environment: Production
 
       - name: Clean existing Prisma client
         run: rm -rf node_modules/.prisma
 
       - name: Generate Prisma client
         run: npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        environment: Production
 
       - name: Build project
         run: npm run build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        environment: Production
